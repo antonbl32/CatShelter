@@ -1,13 +1,14 @@
 package by.anton.catshelter.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "volantire")
-public class Volantire {
+@Table(name = "volunteer")
+public class Volunteer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -15,6 +16,7 @@ public class Volantire {
     @Column(name = "name")
     private String name;
     @Column(name = "access")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean access;
 
 }
