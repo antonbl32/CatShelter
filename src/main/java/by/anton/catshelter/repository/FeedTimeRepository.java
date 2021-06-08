@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,10 +15,10 @@ public interface FeedTimeRepository extends JpaRepository<FeedTime,Integer> {
     Optional<List<FeedTime>> getAllByIdcat(Integer idcat);
     Optional<List<FeedTime>> getAllByIdvolantire(Integer idvolantire);
 
-    @Query(value = "select * from FeedTime fd where (select max(sfd.feedTime) from FeedTime sfd where fd.id=sfd.id) and fd.idcat= :idcat",
+    @Query(value = "select fd.feedtime from FeedTime fd where fd.idcat=:idcat order by fd.feedtime desc limit 1;",
     nativeQuery = true)
-    Optional<FeedTime> getLastTimeFeedByCatId(@Param("idcat") Integer idcat);
-    @Query(value = "select * from FeedTime fd where (select max(sfd.feedTime) from FeedTime sfd where fd.id=sfd.id) and fd.idcat= :idvolantire",
+    Optional<LocalDateTime> getLastTimeFeedByCatId(@Param("idcat") Integer idcat);
+    @Query(value = "select fd.feedtime from FeedTime fd where fd.idvolantire=:idvolantire order by fd.feedtime desc limit 1;",
             nativeQuery = true)
-    Optional<FeedTime> getLastTimeFeedByVolantireId(@Param("idvolantire") Integer idVolantire);
+    Optional<LocalDateTime> getLastTimeFeedByVolantireId(@Param("idvolantire") Integer idVolantire);
 }

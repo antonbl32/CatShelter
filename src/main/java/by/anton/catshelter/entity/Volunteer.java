@@ -4,6 +4,7 @@ import lombok.Data;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -18,5 +19,7 @@ public class Volunteer {
     @Column(name = "access")
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean access;
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "idvolantire")
+    private List<FeedTime> feedTime;
 
 }
