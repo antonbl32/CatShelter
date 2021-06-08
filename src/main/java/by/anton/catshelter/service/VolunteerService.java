@@ -16,6 +16,7 @@ import org.springframework.util.ObjectUtils;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -87,6 +88,16 @@ public class VolunteerService {
 
     public List<Volunteer> getAllVolunteers() {
         return volunteerRepository.findAll();
+    }
+
+    public Volunteer getVolunteerFedByOneWeek(Volunteer volunteer){
+        volunteer.setFeedTime(volunteer.getFeedTime().stream().filter(f-> Period.between(LocalDateTime.now().toLocalDate()
+                ,f.getFeedTime().toLocalDate()).getDays()<=7).collect(Collectors.toList()));
+        return volunteer;
+    }
+
+    public Volunteer getVolunteerById(int id){
+        return volunteerRepository.getVolunteerById(id).orElseThrow(()-> new NoSuchVolunteerException("No volunteer by id="+id));
     }
 
 }
